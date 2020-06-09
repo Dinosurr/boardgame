@@ -1,20 +1,20 @@
 import ast
-from typing import Set, Dict, List, Any, Union, Tuple
 
 import pandas
 
 
 class Games:
 
+    # Only shows the list
     def show_list(self):
-        print(self.df.to_string)
+        print(self.df.to_string(index=False))
 
     # Makes the dataframe
     def import_list(self):
         self.df = pandas.DataFrame(self.dicts).reindex(columns=['ID', 'Name', 'Players', 'Playtime', 'Age'])
 
-    # Adds the item based on input, and makes an id which is
     def add_item(self, name, players, time, age):
+
         temp_dict = {"ID": len(self.dicts) + 1, "Name": name, "Age": age, "Playtime": time, "Players": players}
         self.dicts.append(temp_dict)
         self.print_file()
@@ -25,10 +25,9 @@ class Games:
         print("Saving to filedata.txt...")
 
     def search(self, col, val):
-        print(self.df.loc[self.df['Name'] == val])
-
+        print(self.df.loc[self.df[col] == val])
     # https://www.geeksforgeeks.org/python-removing-dictionary-from-list-of-dictionaries/
-    # loops to find item with the correct id and deletes it
+
     def remove(self, val):
         for i in range(len(self.dicts)):
             if self.dicts[i]['ID'] == int(val):
@@ -43,7 +42,6 @@ class Games:
         f = open("filedata.txt", 'r')
         self.dicts = ast.literal_eval(f.read())
 
-    # Input checker
     def get_number(self):
         try:
             val = int(input())
@@ -60,7 +58,6 @@ class Games:
             choice = str(input())
             if choice == "1":
                 print("Please insert info for game to add, Name, Number of players, playtime, age")
-
                 Name = input("Name: ")
                 print("Number of players: ")
                 Player_count = self.get_number()
@@ -80,12 +77,10 @@ class Games:
                 print("Showing list")
             if choice == "4":
                 print("Please insert what column you want to search in; Name, Players, Playtime or age:")
-                col = input().capitalize()
+                col = input()
                 print("Please insert what value you want to search for in the column, case sensitive")
                 val = input()
                 self.search(col, val)
-
-
 
 test = Games()
 test.Run()
