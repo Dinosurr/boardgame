@@ -1,9 +1,17 @@
 import ast
-
+import os.path
 import pandas
 
 
 class Games:
+
+    def test_file(self):
+        if os.path.isfile("filedata.txt"):
+            return True
+
+    def make_file(self):
+        f = open("filedata.txt", 'w+')
+        f.write("[]")
 
     # Only shows the list
     def show_list(self):
@@ -25,7 +33,11 @@ class Games:
         print("Saving to filedata.txt...")
 
     def search(self, col, val):
+        if col != "Name":
+            val = int(val)
         print(self.df.loc[self.df[col] == val])
+
+
     # https://www.geeksforgeeks.org/python-removing-dictionary-from-list-of-dictionaries/
 
     def remove(self, val):
@@ -51,10 +63,14 @@ class Games:
         return val
 
     def Run(self):
+        if not self.test_file():
+            self.make_file()
+
         while True:
             self.read_file()
             self.import_list()
-            print("What do you want to do? \n 1. Add a game to list. \n 2. Remove game from list. \n 3. Show all.")
+            print("What do you want to do? \n 1. Add a game to list. \n 2. Remove game from list. \n 3. Show all. \n "
+                  "4. Filter in list")
             choice = str(input())
             if choice == "1":
                 print("Please insert info for game to add, Name, Number of players, playtime, age")
@@ -73,14 +89,18 @@ class Games:
                 print("Type the id of the game you want to remove")
                 self.remove(input())
             if choice == "3":
-                self.show_list()
+                if not self.df.empty:
+                    self.show_list()
+                else:
+                    print("List is empty!")
                 print("Showing list")
             if choice == "4":
                 print("Please insert what column you want to search in; Name, Players, Playtime or age:")
                 col = input()
                 print("Please insert what value you want to search for in the column, case sensitive")
                 val = input()
-                self.search(col, val)
+                self.search(col.capitalize(), val)
+
 
 test = Games()
 test.Run()
