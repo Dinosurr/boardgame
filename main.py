@@ -1,11 +1,11 @@
-import ast
 import os.path
 import pandas
+import json
 
 
 class Games():
     def __init__(self):
-        self.datafile = "filedata.txt"
+        self.datafile = "filedata2.json"
 
     def make_file(self):
         with open(self.datafile, 'w+') as f:
@@ -23,11 +23,11 @@ class Games():
         else:
             temp_dict = {"ID": len(self.dicts) + 1, "Name": name, "Age": age, "Playtime": time, "Players": players}
             self.dicts.append(temp_dict)
-            self.save_content(str(self.dicts))
+            self.save_content(self.dicts)
 
     def save_content(self, content):
         with open(self.datafile, 'w+') as f:
-            f.write(content)
+            json.dump(content, f)
             print(f"Saving to {self.datafile} ...")
 
     def search(self, col, val):
@@ -52,8 +52,8 @@ class Games():
     def read_file(self):
         if not os.path.isfile(self.datafile):
             self.make_file()
-        with open(self.datafile, 'r') as f:
-            self.dicts = ast.literal_eval(f.read())
+        with open(self.datafile, ) as f:
+            self.dicts = json.load(f)
 
     def get_number(self):
         try:
@@ -93,7 +93,7 @@ class Games():
     def menu_filter_items(self):
         print("Please insert what column you want to search in; Name, Players, Playtime or age:")
         col = input()
-        print("Please insert what value you want to search for in the column, names are case sensitive!")
+        print("Please insert what value you want to search for in the column, case sensitive")
         val = input()
         self.search(col.capitalize(), val)
 
@@ -117,10 +117,8 @@ class Games():
                 self.menu_filter_items()
 
             elif choice == "5":
-                print("Quitting . . .")
+                print("Quitting")
                 break
-            else:
-                print("Invalid input please try again!")
 
 
 test = Games()
