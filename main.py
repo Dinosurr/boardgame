@@ -46,9 +46,7 @@ class Games():
                 break
         self.save_content(str(self.dicts))
 
-    # reads content in filedata.txt as Python datatype instead of into a string. The use of ast.literal_eval is
-    # because it doesnt execute the code if its not a valid python datatype. (security issues)
-    # https://stackoverflow.com/questions/15197673/using-pythons-eval-vs-ast-literal-eval
+
     def read_file(self):
         if not os.path.isfile(self.datafile):
             self.make_file()
