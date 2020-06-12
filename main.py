@@ -44,7 +44,7 @@ class Games():
             if self.dicts[i]['ID'] == int(val):
                 del self.dicts[i]
                 break
-        self.save_content(str(self.dicts))
+        self.save_content(self.dicts)
 
 
     def read_file(self):
